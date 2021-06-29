@@ -21,9 +21,9 @@ Here is the tutorial to train a 3-class COVID-19 classification model.
 ### 2. Code
 **Currently, only CXR datasets are supported (3-classes)**. 
 `data.py`: prepare data for training. 
-`model`: network architectures that could be employed for training
-`train`: code to train the model (**Read it and understand the basic steps to train a network using PyTorch**)
-`eval`: evaluate trained model performance: F1 score, precision, recall, sensitivity, AUC  
+`model.py`: network architectures that could be employed for training
+`train.py`: code to train the model (**Read it and understand the basic steps to train a network using PyTorch**)
+`eval.py`: evaluate trained model performance: F1 score, precision, recall, sensitivity, AUC  
 
 Train: `bash run_train.sh`, or `python train.py --help` for help to check how to set the parameters
 Test: `bash run_eval.sh`, or `python eval.py --help` for help. 
@@ -34,6 +34,6 @@ Test: `bash run_eval.sh`, or `python eval.py --help` for help.
 3. support evaluation of multi-modal models in `eval.py`
 4. try to add model network architectures in `model.py`
    
-### 4. Reference Repo: 
+### 4. Reference Repos: 
 1. https://github.com/lindawangg/COVID-Net
 2. https://github.com/haydengunraj/COVIDNet-CT
