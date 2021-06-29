@@ -17,6 +17,7 @@ Here is the tutorial to train a 3-class COVID-19 classification model.
 **train_sample.txt**: toy sample for testing the code.
 
 - CT images: make the COVIDx-CT dataset as: https://github.com/haydengunraj/COVIDNet-CT/blob/master/create_COVIDx_CT.ipynb
+**Note:** if we need to reduce the training time, consider reducing the number of the training images.
 
 ### 2. Code
 **Currently, only CXR datasets are supported (3-classes)**. 
