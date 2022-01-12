@@ -3,17 +3,25 @@ import torch.nn as nn
 from torchvision import models
 from collections import OrderedDict
 
+from torchvision.models import resnet
+# from resnet import resnet50, resnet18, resnet101
+# from densenet import densenet121, densenet161
+# from inception_v3 import inception_v3
+
 class LogitResnet(nn.Module):
     """ResNet architecture for extracting feature. Add an extra fc layer for extracting embedding."""
-    def __init__(self, model_name, num_classes, embedding_dim=128, return_logit=False, use_pretrained=True):
+    def __init__(self, model_name, num_classes, embedding_dim=128, return_logit=False, use_pretrained=True, model_weight=None):
         """embeding """
         super(LogitResnet, self).__init__()
         if model_name == "resnet50":
             model = models.resnet50(pretrained=use_pretrained)
+            # model = resnet50(pretrained=use_pretrained, model_weight=model_weight)
         elif model_name == "resnet101":
             model = models.resnet34(pretrained=use_pretrained)
+            # model = resnet101(pretrained=use_pretrained, model_weight=model_weights) 
         elif model_name == "resnet18":
             model = models.resnet18(pretrained=use_pretrained)
+            # model = resnet18(pretrained=use_pretrained, model_weight=model_weights)
         else:
             print("unknown resnet model")
             exit()
@@ -58,12 +66,14 @@ class CifarResnet18(nn.Module):
 
 class LogitDensenet(nn.Module):
     """return network logit"""
-    def __init__(self, model_name, num_classes, embedding_dim=128, return_logit=False, use_pretrained=True):
+    def __init__(self, model_name, num_classes, embedding_dim=128, return_logit=False, use_pretrained=True, model_weight=None):
         super(LogitDensenet, self).__init__()
         if model_name == "densenet161":
             model = models.densenet161(pretrained=use_pretrained)
+            # model = densenet161(pretrained=use_pretrained, model_weight=model_weight) 
         elif model_name == "densenet121":
             model = models.densenet121(pretrained=use_pretrained)
+            # model = densenet121(pretrained=use_pretrained, model_weight=model_weight)
         else:
             print("unknown densenet structure")
         num_features = model.classifier.in_features
@@ -82,6 +92,22 @@ class LogitDensenet(nn.Module):
         if self.return_logit:
             return [x, l]
         return [x]
+
+# only for transfer learning 
+class LogitInceptionV3(nn.Module):
+    """ResNet architecture for extracting feature. Add an extra fc layer for extracting embedding."""
+    def __init__(self, num_classes, use_pretrained=True, model_weight=None):
+        """embeding """
+        super(LogitInceptionV3, self).__init__()
+        model = models.inception_v3(pretrained=use_pretrained, process=True)
+        # model = inception_v3(pretrained=use_pretrained, model_weight=model_weight)
+        num_features = model.fc.in_features
+        model.fc = nn.Linear(num_features, num_classes)
+        self.net = model
+    
+    def forward(self, inputs):
+        x = self.net(inputs)
+        return x
 
 
 def C_net(model_name, num_classes, embedding_dim=128, use_pretrained=True, return_logit=False):
